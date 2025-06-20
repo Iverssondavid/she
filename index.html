@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Te Amo</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: fall linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes fall {
+      0% {
+        top: -10%;
+        opacity: 1;
+      }
+      100% {
+        top: 110%;
+        opacity: 0;
+      }
+    }
+
+    .center-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+    }
+
+    #heart-button {
+      font-size: 50px;
+      background: none;
+      border: none;
+      color: #ff4d6d;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    #phrase {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      max-width: 90vw;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio oculto -->
+<audio id="bg-music" loop>
+  <source src="Musica.mp3" type="audio/mpeg">
+  Tu navegador no soporta audio.
+</audio>
+
+
+
+  <!-- Contenido central -->
+  <div class="center-content">
+    <button id="heart-button">💗</button>
+    <div id="phrase"></div>
+  </div>
+
+  <script>
+    const frases = [
+      "FELIZ CUARTO MES MI AMOR",
+      "Eres mi persona favorita 💖",
+      "Contigo todo es mejor 🌹",
+      "Gracias por existir 🙌🏻",
+      "Eres el amor de mi vida 💗",
+      "Nunca dejaré de amarte 🫂",
+      "Mi corazón es tuyo ❤️",
+      "Nací para ti 👩🏻‍❤️‍💋‍👨🏻",
+      "No dejemos que lo nuestro se acabe, a pesar de los malos momentos ❤️",
+      "Siempre demos lo mejor de nosotros, 100 y 100 ",
+      "Soy muy feliz cuando estoy contigo 👩🏻‍❤️‍👨🏻",
+      "Te Amo🫶🏻"
+    ];
+
+    const fraseDiv = document.getElementById("phrase");
+    const boton = document.getElementById("heart-button");
+    const audio = document.getElementById("bg-music");
+    let index = 0;
+    let audioIniciado = false;
+
+    boton.addEventListener("click", () => {
+      // Iniciar música si no se ha hecho aún
+      if (!audioIniciado) {
+        audio.play().then(() => {
+          console.log("🎶 Música iniciada");
+        }).catch((e) => {
+          console.log("⚠️ Bloqueo del navegador:", e);
+        });
+        audioIniciado = true;
+      }
+
+      // Mostrar frase
+      fraseDiv.style.opacity = 0;
+      setTimeout(() => {
+        fraseDiv.textContent = frases[index];
+        fraseDiv.style.opacity = 1;
+        index = (index + 1) % frases.length;
+      }, 300);
+    });
+
+    // Efecto de corazones cayendo
+    function crearCorazon() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    setInterval(crearCorazon, 150);
+  </script>
+
+</body>
+</html>
+
+
